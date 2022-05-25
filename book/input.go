@@ -1,7 +1,6 @@
-package books
+package book
 
 import "encoding/json"
-
 // POST API
 type BookInput struct {
 	Title string      `json:"title" binding:"required"`

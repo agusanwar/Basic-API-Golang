@@ -3,8 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
-
-	"pustaka-api/books"
+	"pustaka-api/book"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -41,7 +40,7 @@ func QueryHandler(c *gin.Context) {
 
 func PostBooksHandler(c *gin.Context) {
 	// TITLE, PRICE
-	var book books.BookInput
+	var book book.BookInput
 
 	err := c.ShouldBindJSON(&book)
 	if err != nil {

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"pustaka-api/books"
+
+	"pustaka-api/book"
 	"pustaka-api/handler"
 
 	"github.com/gin-gonic/gin"
@@ -20,64 +20,28 @@ func main() {
 	}
 
 	// AUTO MIGRATE DATABASE
-	db.AutoMigrate(&books.Book{})
+	db.AutoMigrate(&book.Book{})
 
-	// // CREATE DATA
-	// books := books.Book{}
-	// books.Title = "Pemrograman Java Script"
-	// books.Price = 300000
-	// books.Description = "Pemrograman Java Script For Beginners to Intermediate"
-	// books.Rating = 10
-	// books.Discount = 10
+	// Repository
+	bookRepository := book.NewReposiroty(db)
 
-	// // SAVE DATA
-	// err = db.Create(&books).Error
-	// if err != nil {
-	//  println("Error Create Field books")
+	// // GET FIND ALL
+	// books, err := bookRepository.FindAll()
+
+	// for _, book := range books {
+	// 	fmt.Println("title: ", book.Title)
 	// }
 
-	//  // READ DATA
-	// // var books books.Book
-	// var findBooks []books.Book
-	// err = db.Debug().Where("Title = ?", "Pemrograman Go").Find(&findBooks).Error
-	// if err != nil {
-	//  println("Error Finding Field books")
-	// }
-	// for _, book := range findBooks {
-	// 	fmt.Println("Title:", book.Title)
-	// 	fmt.Println("books object: ", book)
-	// }
-
-	//  // UPDATE DATA
-	// var books books.Book
-	// err = db.Debug().Where("id = ?", 1).First(&books).Error
-	// if err != nil {
-	//  println("Error Finding Field books")
-	// }
-	// 	fmt.Println("Error Find Data")
-
-	// // SAVE UPDATE
-	// books.Title = "Pemrograman Go-Lang"
-	// err = db.Debug().Save(&books).Error
-	// if err != nil {
-	//  println("Error Finding Field books")
-	// }
-	// 	fmt.Println("Error Update Data")
-
-	// DELETE DATA
-	var books books.Book
-	err = db.Debug().Where("id = ?", 3).First(&books).Error
-	if err != nil {
-		fmt.Println("Error Find Data")
+	// Create Book
+	book := book.Book{
+		Title: "Go Programming JAVA",
+		Price: 100000,
+		Description:  "This is my first JAVA app",
+		Rating: 8,
+		Discount: 10,
 	}
-		
 
-	//  PROSES DELETE
-	err = db.Delete(&books).Error
-	if err != nil {
-	 	fmt.Println("Error Delete Data")
-	}
-		
+	bookRepository.Create(book)
 
 	// Router
 	router := gin.Default()
